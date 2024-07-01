@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>DATrix Mainframe CLI</title>
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link
+		href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap"
+		rel="stylesheet" />
+	<link rel='stylesheet' href='//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.css'>
+	<style>
+		@font-face {
+			font-family: "VT323";
+			src:
+				url('vt323-latin-400-normal.woff2') format('woff2'),
+				url('vt323-latin-400-normal.woff') format('woff')
+		}
+
+		@font-face {
+			font-family: "Hack";
+			src: url("HackNerdFontMono-Regular.ttf"), ;
+			font-weight: normal;
+		}
+
+		@font-face {
+			font-family: "Hack";
+			src: url("HackNerdFontMono-Bold.ttf"), ;
+			font-weight: bold;
+		}
+
+		body {
+			font-family: "Hack", monospace;
+			background: black;
+			color: green;
+			margin: 0;
+			/* scroll-behavior: smooth; */
+		}
+
+		h1,
+		h2,
+		h3 {
+			font-family: VT323;
+			margin: 0;
+			font-size: 200%;
+		}
+
+		.window {
+			max-width: 1200px;
+			height: 100vh;
+			margin: auto;
+			box-sizing: border-box;
+			border: 1px solid darkgray;
+			border-radius: 5px;
+			overflow: hidden;
+		}
+
+		nav {
+			display: flex;
+			justify-content: space-between;
+			background: darkgray;
+		}
+
+		.container {
+			display: grid;
+			grid-template-rows: auto 1fr 2rem;
+			gap: 1rem;
+			height: 100vh;
+			width: 100vw;
+			box-sizing: border-box;
+			padding: 1rem;
+			overflow: hidden;
+		}
+
+		.input-container {
+			display: flex;
+			/* grid-template-columns: minmax(0, auto) minmax(10px, 1fr); */
+			box-sizing: border-box;
+			width: 100%;
+			/* gap: 1rem; */
+		}
+
+		input {
+			font-family: "Source Code Pro", monospace;
+			background: black;
+			color: green;
+			border: none;
+		}
+
+		.profile-page {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: start;
+			gap: 1rem;
+
+		}
+
+		.description {
+			flex: 1 1 150px;
+			align-self: center;
+		}
+
+		a {
+			text-decoration: underline;
+			cursor: pointer;
+			color: #7574ff;
+		}
+
+		a:hover {
+			font-weight: bold;
+		}
+
+		li {
+			list-style: none;
+			font-weight: bold;
+		}
+
+		#content {
+			height: 100%;
+			overflow-y: auto;
+			scroll-behavior: smooth;
+			box-sizing: border-box;
+
+		}
+
+
+
+		/* #cli:focus-visible {
+            border: none;
+            outline: none;
+        } */
+		pre>span {
+			animation: blink 1s step-end infinite;
+			border-bottom: 2px solid white;
+
+			background: #000;
+			color: green;
+			font-family: monospace;
+			padding: 0 0.2rem;
+		}
+
+		pre {
+			margin: 0;
+		}
+
+		@keyframes blink {
+
+			from,
+			to {
+				border-color: transparent;
+			}
+
+			50% {
+				border-color: green;
+			}
+		}
+
+		p {
+			margin-block-start: 0;
+			margin-block-end: 0;
+		}
+
+		.command {
+			margin-block-start: 1rem;
+		}
+
+		#cli {
+			width: 0;
+			outline: none;
+			caret-color: black;
+			font-size: 1rem;
+			margin-left: 0.5rem;
+		}
+
+		.ascii-text {
+			font-size: 3px;
+			color: #3ee33e
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="container">
+		<div style="display: flex; gap: 1rem">
+			<img src="./favicon-32x32.png" alt="heart sign with hands">
+			<h1>DATrix Mainframe Command Line Interface</h1>
+		</div>
+
+		<div id="content">
+			Welcome to the DATrix Mainframe Command Line Interface.
+			Available commands:
+			<ul>
+				<li>class</li>
+				<li>year</li>
+				<li>source code</li>
+			</ul>
+		</div>
+		<div class="input-container">
+			<p><b>admin@DAT-mainframe: /DATA2024/theses</b>$</p>
+			<pre><input type="text" id="cli"><span>&nbsp;</span></pre>
+		</div>
+	</div>
+
+
+</body>
+
+<script>
+	function close_window() {
+		window.open("", '_self').window.close();
+		// close();
+	}
+
+</script>
+
+<script type="module">
+
+	let cli = document.getElementById("cli");
+
+	// always focus command line
+	// cli.addEventListener('blur', () => {
+	//     cli.focus()
+	// })
+
+	document.addEventListener("keydown", (e) => {
+		// console.log('key pressed', document.activeElement, document.activeElement == cli)
+		if (document.activeElement == cli) return;
+
+		cli.focus();
+	});
+
+	async function createProfilePage(path) {
+		const response = fetch(path)
+			.then((data) => data.text())
+			.then((html) => {
+				return html;
+			});
+		return response;
+	}
+
+	const commands = {
+		jonas: await createProfilePage("/jonas.html"),
+		puck: await createProfilePage("/puck.html"),
+		hugo: await createProfilePage("/hugo.html"),
+		rosalinde: await createProfilePage("/rosalinde.html"),
+		flore: await createProfilePage("/flore.html"),
+		class: await createProfilePage("/class2.html"),
+		year: "2024",
+		"source code": '<a href="https://github.com/dat-artez/theses-24"> https://github.com/dat-artez/theses-24</a>',
+	};
+	// handleCommand('class')
+
+	addEventListener("hashchange", (event) => {
+		console.log("hash changed");
+		console.log(event);
+
+		const command = event.newURL.split("#").slice(-1)[0];
+		console.log(command);
+		handleCommand(command);
+	});
+
+	document.addEventListener("DOMContentLoaded", (event) => {
+		cli.focus();
+	});
+
+	let content = document.getElementById("content");
+
+	// let links = document.getElementsByClassName("link")
+	// console.log(links)
+
+	// for (link of links) {
+	//     link.addEventListener("click", e => {
+	//         handleCommand(e.target.innerText)
+	//     })
+	// };
+
+	cli.addEventListener("keydown", (e) => {
+		let { key, keyCode } = e;
+		// console.log(e)
+
+		let value = e.target.value.trim();
+
+		if (key === "Enter") {
+			if (value === "") return;
+
+			handleCommand(value);
+			e.srcElement.style.width = 0;
+		} else {
+			e.srcElement.style.width = `${e.target.value.length + (key === "Backspace" ? -1 : 1)
+				}ch`;
+		}
+	});
+
+	// cli.addEventListener("keyup", e => {
+	//     let rect = e.srcElement.getClientRects()
+	//     console.log(rect)
+	//     e.srcElement.style.width = `${e.target.value.length}ch`
+	// })
+
+	function handleCommand(command) {
+		cli.value = "";
+		cli.focus();
+
+		let line = document.createElement("p");
+		line.innerHTML = `<p class="command"><b>admin@DAT-mainframe: /DATA2024/theses</b>$ ${command}</p>`;
+
+		content.appendChild(line);
+
+		//check if command exists
+		let awnser = Object.keys(commands).includes(command)
+			? commands[command]
+			: `\ncommand '${command}' not recognised`;
+
+		//push awnser to DOM
+		content.innerHTML += awnser;
+
+		// autoscroll
+		content.scrollTop = content.scrollHeight;
+	}
+
+	handleCommand("year");
+	handleCommand('class');
+</script>
+
+</html>
